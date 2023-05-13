@@ -149,7 +149,7 @@ difficulty = (average skill mismatch ratio), normalized from 0-1 where
 """
 
 current_ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
-f = open("/Users/conner/scalpel/stats_updatelog.txt", "a")
+f = open("/Users/conner/pickleball_league/stats_updatelog.txt", "a")
 f.write(f'{len(played)} matches in stats | UPDATING ADHOC | {current_ts}\n')
 stats_ws = sh.worksheet("PLAYER STATS")
 set_with_dataframe(stats_ws, df_stats, row=2, col=2)

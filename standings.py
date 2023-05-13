@@ -16,7 +16,7 @@ schedule = get_as_dataframe(schedule_ws,nrows=90)[['Match','Week','Leg', \
 played = schedule[pd.notna(schedule['1A'])]
 
 current_ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
-f = open("/Users/conner/scalpel/updatelog.txt", "r+")
+f = open("/Users/conner/pickleball_league/updatelog.txt", "r+")
 s=f.readlines()[-1]
 prev_mp = int(s[:s.find(' ')])
 print(f'standings reflects {len(played)} matches played, compared to previous run of {prev_mp}')

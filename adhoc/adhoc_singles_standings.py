@@ -87,7 +87,7 @@ df_standings = df_standings[['Rank','Player','MP','MW','ML','MR','GP','GW','GL',
 print(df_standings.reset_index(drop=True).to_string())
 
 current_ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
-f = open("/Users/conner/scalpel/singles_updatelog.txt", "a")
+f = open("/Users/conner/pickleball_league/singles_updatelog.txt", "a")
 f.write(f'{len(played)} matches in standings | UPDATING ADHOC | {current_ts}\n')
 standings_ws = sh.worksheet("STANDINGS")
 set_with_dataframe(standings_ws, df_standings, row=2, col=2)
