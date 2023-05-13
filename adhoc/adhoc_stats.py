@@ -123,11 +123,14 @@ df_stats['GR']=(df_stats.GW/df_stats.GP).round(4)
 df_stats['PF']=[dr['P'][x][0] for x in df_stats.Player]
 df_stats['PA']=[dr['P'][x][1] for x in df_stats.Player]
 df_stats['PD']=(df_stats.PF-df_stats.PA)
+df_stats['PF/G']=(df_stats.PF/(df_stats.GP)).round(4)
+df_stats['PA/G']=(df_stats.PA/(df_stats.GP)).round(4)
+df_stats['PD/G']=(df_stats.PD/(df_stats.GP)).round(4)
 df_stats['PR']=(df_stats.PF/(df_stats.PF+df_stats.PA)).round(4)
 
 df_stats = df_stats.sort_values(['MR','MW','GR','GW','PR','PF'],ascending=[False,False,False,False,False,False])
 df_stats['Rank']=range(1,1+len(players))
-df_stats = df_stats[['Rank','Player','MP','MW','ML','MR','GP','GW','GL','GR','PF','PA','PD','PR']]
+df_stats = df_stats[['Rank','Player','MP','MW','ML','MR','GP','GW','GL','GR','PF','PA','PD','PF/G','PA/G','PD/G','PR']]
 print(df_stats.reset_index(drop=True).to_string())
 
 """
