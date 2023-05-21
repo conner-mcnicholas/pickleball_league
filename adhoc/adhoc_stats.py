@@ -8,10 +8,10 @@ sa = gspread.service_account()
 sh = sa.open("SCALPEL Resources (DOUBLES)")
 
 schedule_ws = sh.worksheet("SCHEDULE")
-schedule = get_as_dataframe(schedule_ws,nrows=90)[['Match','Week','Leg', \
+schedule = get_as_dataframe(schedule_ws,nrows=109)[['Match','Week','Leg', 'Location',\
     'T-A','T-B','Player A-1','Player A-2','Player B-1','Player B-2', \
     '1A','1B','2A','2B','3A','3B']]
-played = schedule[pd.notna(schedule['1A'])]
+played = schedule[pd.notna(schedule['1A'])].loc[schedule.Location != 'Simulated']
 
 players_ws = sh.worksheet("PLAYER DATASHEET")
 df_players = get_as_dataframe(players_ws,nrows=pd.notna(get_as_dataframe(players_ws).NAME).sum()) \
@@ -131,6 +131,8 @@ df_stats['PR']=(df_stats.PF/(df_stats.PF+df_stats.PA)).round(4)
 df_stats = df_stats.sort_values(['MR','MW','GR','GW','PR','PF'],ascending=[False,False,False,False,False,False])
 df_stats['Rank']=range(1,1+len(players))
 df_stats = df_stats[['Rank','Player','MP','MW','ML','MR','GP','GW','GL','GR','PF','PA','PD','PF/G','PA/G','PD/G','PR']]
+df_stats = df_stats[df_stats.Player != "Carlos Alonso"]
+df_stats_tophalf = df_stats.head(18)
 print(df_stats.reset_index(drop=True).to_string())
 
 """
@@ -152,4 +154,4 @@ current_ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
 f = open("/Users/conner/pickleball_league/stats_updatelog.txt", "a")
 f.write(f'{len(played)} matches in stats | UPDATING ADHOC | {current_ts}\n')
 stats_ws = sh.worksheet("PLAYER STATS")
-set_with_dataframe(stats_ws, df_stats, row=2, col=2)
+set_with_dataframe(stats_ws, df_stats_tophalf, row=2, col=2)

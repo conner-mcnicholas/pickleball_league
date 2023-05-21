@@ -8,10 +8,10 @@ sa = gspread.service_account()
 sh = sa.open("SCALPEL Resources (DOUBLES)")
 
 schedule_ws = sh.worksheet("SCHEDULE")
-schedule = get_as_dataframe(schedule_ws,nrows=90)[['Match','Week','Leg', \
+schedule = get_as_dataframe(schedule_ws,nrows=109)[['Match','Week','Leg', \
     'T-A','T-B','Player A-1','Player A-2','Player B-1','Player B-2', \
     '1A','1B','2A','2B','3A','3B']]
-played = schedule[pd.notna(schedule['1A'])]
+played = schedule[pd.notna(schedule['1A'])].loc[schedule.Scheduled != 'Simulated']
 
 current_ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
 f = open("/Users/conner/pickleball_league/stats_updatelog.txt", "r+")
