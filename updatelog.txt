@@ -29046,3 +29046,6 @@
 72 matches already accounted for | QUITTING | 2023-05-18 20:49:29 PM
 72 matches already accounted for | QUITTING | 2023-05-18 20:50:32 PM
 72 matches already accounted for | QUITTING | 2023-05-18 20:51:14 PM
+86 matches in standings | UPDATING ADHOC | 2023-06-05 22:40:01 PM
+86 matches in standings | UPDATING ADHOC | 2023-06-05 23:02:00 PM
+86 matches in standings | UPDATING ADHOC | 2023-06-05 23:03:18 PM

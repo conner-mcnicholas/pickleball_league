@@ -19,15 +19,28 @@ dr={'M':{'Conner McNicholas':[0,0],'Didier Grelin':[0,0],'Evan Frangipane':[0,0]
     'G':{'Conner McNicholas':[0,0],'Didier Grelin':[0,0],'Evan Frangipane':[0,0],'Kim McGinty':[0,0],'Matt Smith':[0,0],'Nate Hines':[0,0],'Nolan Smyth':[0,0],'Shawnte Hagen':[0,0]},
     'P':{'Conner McNicholas':[0,0],'Didier Grelin':[0,0],'Evan Frangipane':[0,0],'Kim McGinty':[0,0],'Matt Smith':[0,0],'Nate Hines':[0,0],'Nolan Smyth':[0,0],'Shawnte Hagen':[0,0]}}
 
+def prntse(se):
+    if all([x in se for x in ['Shawnte','Evan']]):
+        print(se)
+
+shawntevsevan = False
+
+def printon(sestring):
+    if shawntevsevan:
+        print(sestring)
+
 for m in range(len(played)):
     match = played.iloc[m]
+    A,B = match[['Player A','Player B']]
+    if all([x in f'{A} {B}' for x in ['Shawnte','Evan']]):
+        shawntevsevan = True
+    else:
+        shawntevsevan = False
 
     matchnum = match['Match']
-    A,B = match[['Player A','Player B']]
-    G1A,G1B,G2A,G2B,G3A,G3B = match[['1A','1B','2A','2B','3A','3B']]
-    
-    print(f'\nmatch {matchnum}:')
+    printon(f'\nmatch {matchnum}:')
 
+    G1A,G1B,G2A,G2B,G3A,G3B = match[['1A','1B','2A','2B','3A','3B']]
     gdict = {1:[G1A,G1B],2:[G2A,G2B],3:[G3A,G3B]}
 
     for gk,gv in gdict.items():
@@ -51,26 +64,27 @@ for m in range(len(played)):
                     G3B = 999
                 print(f"Game {gk} still half entered, forcing -999,999 values!")
                 break
-        print(f'1A:{G1A},1B:{G1B}\n2A:{G2A},2B:{G2B}\n3A:{G3A},3B:{G3B}')
+    
+    printon(f'1A:{G1A},1B:{G1B}\n2A:{G2A},2B:{G2B}\n3A:{G3A},3B:{G3B}')
             
     if pd.isna(G3A):
-        print('settled in 2 games')
+        printon('settled in 2 games')
         if G2A > G2B:
-            print(f'{A} beat {B} 2 games to 0')
+            printon(f'{A} beat {B} 2 games to 0')
             dr['M'][A][0]+=1
             dr['M'][B][1]+=1
             dr['G'][A][0]+=2
             dr['G'][B][1]+=2
         else:
-            print(f'{B} beat {A} 2 games to 0')
+            printon(f'{B} beat {A} 2 games to 0')
             dr['M'][A][1]+=1
             dr['M'][B][0]+=1
             dr['G'][A][1]+=2
             dr['G'][B][0]+=2
     else:
-        print('settled in 3 games')
+        printon('settled in 3 games')
         if G3A > G3B:
-            print(f'{A} beat {B} 2 games to 1')
+            printon(f'{A} beat {B} 2 games to 1')
             dr['M'][A][0]+=1
             dr['M'][B][1]+=1
             dr['G'][A][0]+=2
@@ -78,7 +92,7 @@ for m in range(len(played)):
             dr['G'][B][1]+=2
             dr['G'][B][0]+=1
         else:
-            print(f'{B} beat {A} 2 games to 1')
+            printon(f'{B} beat {A} 2 games to 1')
             dr['M'][B][0]+=1
             dr['M'][A][1]+=1
             dr['G'][B][0]+=2
@@ -90,7 +104,7 @@ for m in range(len(played)):
     PB = pd.Series([G1B,G2B,G3B]).sum().astype(int)
     dr['P'][A]=[dr['P'][A][0]+PA,dr['P'][A][1]+PB]
     dr['P'][B]=[dr['P'][B][0]+PB,dr['P'][B][1]+PA]
-    print(f'{A} scored {PA} points\n{B} scored {PB} points')
+    printon(f'{A} scored {PA} points\n{B} scored {PB} points')
 
 df_standings = pd.DataFrame(Counter(pd.concat([played['Player A'],played['Player B']])).items(),columns=['Player','MP']).sort_values('Player')
 

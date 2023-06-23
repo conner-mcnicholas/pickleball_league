@@ -13,6 +13,7 @@ schedule = get_as_dataframe(schedule_ws,nrows=109)[['Match','Week','Leg', \
     'T-A','T-B','Player A-1','Player A-2','Player B-1','Player B-2', \
     '1A','1B','2A','2B','3A','3B']]
 
+
 played = schedule[pd.notna(schedule['1A'])]
 
 dr={'M':{1:[0,0],2:[0,0],3:[0,0],4:[0,0],5:[0,0],6:[0,0],7:[0,0],8:[0,0],9:[0,0]},
@@ -84,13 +85,14 @@ df_standings['PA']=[dr['P'][x][1] for x in df_standings.Tnum]
 df_standings['PD']=(df_standings.PF-df_standings.PA)
 df_standings['PR']=(df_standings.PF/(df_standings.PF+df_standings.PA)).round(4)
 
-df_standings = df_standings.sort_values(['MR','MW','GR','GW','PR','PF'],ascending=[False,False,False,False,False,False])
-df_standings['Rank']=range(1,10)
-df_standings = df_standings[['Rank','Team','MP','MW','ML','MR','GP','GW','GL','GR','PF','PA','PD','PR']]
+#df_standings = df_standings.sort_values(['MR','MW','GR','GW','PR','PF'],ascending=[False,False,False,False,False,False])
+
+df_standings['#']=range(1,10)
+df_standings = df_standings[['#','Team','MP','MW','ML','MR','GP','GW','GL','GR','PF','PA','PD','PR']]
 print(df_standings.reset_index(drop=True).to_string())
 
 current_ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
 f = open("/Users/conner/pickleball_league/updatelog.txt", "a")
 f.write(f'{len(played)} matches in standings | UPDATING ADHOC | {current_ts}\n')
 standings_ws = sh.worksheet("STANDINGS")
-set_with_dataframe(standings_ws, df_standings, row=2, col=2)
+set_with_dataframe(standings_ws, df_standings, row=3, col=2)
